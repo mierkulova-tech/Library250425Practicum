@@ -18,3 +18,16 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.last_name[0]}.{self.first_name}"
+
+class Book(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название книги")
+    publication_date = models.DateField(blank=True, null=True, verbose_name="дата публикации")
+    author = models.ForeignKey(
+        "Author",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="books"
+    )
+
+    def __str__(self):
+        return f"{self.title} --{self.author.last_name if self.author else 'NONAME'}"
